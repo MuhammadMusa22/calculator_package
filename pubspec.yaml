@@ -1,6 +1,6 @@
 name: flutter_awesome_calculator
 description: Flutter calculator package for adding calculator into flutter app.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/MuhammadMusa22/calculator_package.git
 
 environment:

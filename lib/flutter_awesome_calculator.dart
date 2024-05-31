@@ -2,6 +2,7 @@
 
 library calculator;
 
+import 'package:flutter_awesome_calculator/controller/CalculatorController.dart';
 import 'package:flutter_awesome_calculator/widgets/calculator_button.dart';
 import 'package:flutter_awesome_calculator/widgets/error_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,10 @@ class FlutterAwesomeCalculator extends StatefulWidget {
 
   ///Bool value for showing answer field of the calculator, if false then only calculator will be displayed
   bool? showAnswerField;
+
+  /// [CalculatorController] to execute functions programmatically
+  CalculatorController? controller;
+
   void Function(String answer, String expression)? onChanged;
 
   FlutterAwesomeCalculator(
@@ -51,6 +56,7 @@ class FlutterAwesomeCalculator extends StatefulWidget {
       this.expressionAnswerColor,
       this.fractionDigits,
       this.showAnswerField,
+      this.controller,
       this.onChanged})
       : super(key: key);
 
@@ -68,6 +74,7 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
   late Color expressionAnswerColor;
   late int fractionDigits;
   late bool showAnswerField;
+  late CalculatorController controller;
   String expression = '';
   String userInput = '';
   String answer = '';
@@ -87,6 +94,8 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
     expressionAnswerColor = widget.expressionAnswerColor ?? Colors.black;
     fractionDigits = widget.fractionDigits ?? 1;
     showAnswerField = widget.showAnswerField ?? false;
+    controller = widget.controller ?? CalculatorController();
+    controller.setClearAnswerCallback(clear);
   }
 
   final List<String> buttons = [
@@ -403,17 +412,7 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
 
       /// clear button
       case 0:
-        return () {
-          setState(() {
-            userInput = '';
-            answer = '';
-            resetInvalid();
-            resetFontSize();
-            if (widget.onChanged != null) {
-              widget.onChanged!(answer, userInput);
-            }
-          });
-        };
+        return clear;
 
       /// % button
       case 2:
@@ -596,6 +595,18 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
       showErrorSnackBar('Non supported value');
     }
     setState(() {});
+  }
+
+  void clear() {
+    setState(() {
+      userInput = '';
+      answer = '';
+      resetInvalid();
+      resetFontSize();
+      if (widget.onChanged != null) {
+        widget.onChanged!(answer, userInput);
+      }
+    });
   }
 
   @override
