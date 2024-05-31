@@ -412,17 +412,7 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
 
       /// clear button
       case 0:
-        return () {
-          setState(() {
-            userInput = '';
-            answer = '';
-            resetInvalid();
-            resetFontSize();
-            if (widget.onChanged != null) {
-              widget.onChanged!(answer, userInput);
-            }
-          });
-        };
+        return clear;
 
       /// % button
       case 2:
@@ -608,8 +598,15 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
   }
 
   void clear() {
-    // Call the Button presses method with the clear button index
-    calculatorButtonPressed(0);
+    setState(() {
+      userInput = '';
+      answer = '';
+      resetInvalid();
+      resetFontSize();
+      if (widget.onChanged != null) {
+        widget.onChanged!(answer, userInput);
+      }
+    });
   }
 
   @override
