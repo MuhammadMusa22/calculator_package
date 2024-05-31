@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:ui';
 
 /// A class where the available controller function got declared
 class CalculatorController {
