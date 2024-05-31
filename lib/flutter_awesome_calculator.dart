@@ -95,6 +95,7 @@ class _FlutterAwesomeCalculatorState extends State<FlutterAwesomeCalculator> {
     fractionDigits = widget.fractionDigits ?? 1;
     showAnswerField = widget.showAnswerField ?? false;
     controller = widget.controller ?? CalculatorController();
+    controller.setClearAnswerCallback(clear);
   }
 
   final List<String> buttons = [
